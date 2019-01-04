@@ -233,3 +233,4 @@ extract($_REQUEST);
 
 
 
+<?php include(SHARED_PATH . '/shared_footer.php'); ?>

@@ -410,3 +410,6 @@ if(mysqli_connect_errno())
 			</form>
 	</body>
 </html>
+
+
+<?php include(SHARED_PATH . '/shared_footer.php'); ?>

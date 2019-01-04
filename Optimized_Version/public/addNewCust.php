@@ -242,3 +242,6 @@ if(isset($_POST['submit']))
 	
 	
 </html>
+
+
+<?php include(SHARED_PATH . '/shared_footer.php'); ?>

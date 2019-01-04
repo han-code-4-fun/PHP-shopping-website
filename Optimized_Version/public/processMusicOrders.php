@@ -115,3 +115,6 @@ if(isset($checkOut))
 		
 }
 ?>
+
+
+<?php include(SHARED_PATH . '/shared_footer.php'); ?>
