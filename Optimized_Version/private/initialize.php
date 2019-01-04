@@ -1,10 +1,10 @@
 <?php
 
-  ob_start(); // turn on output buffering
+// turn on output buffering
+  ob_start(); 
   
-  // session_start(); // turn on sessions if needed
+
   // Assign file paths to PHP constants
-  // dirname() returns the path to the parent directory
   define("PRIVATE_PATH", dirname(__FILE__));
   define("PROJECT_PATH", dirname(PRIVATE_PATH));
   define("PUBLIC_PATH", PROJECT_PATH . '/public');
@@ -16,15 +16,20 @@
   $doc_root = substr($_SERVER['SCRIPT_NAME'], 0, $public_end);
   define("WWW_ROOT", $doc_root);
 
-  echo "initilized!!!!!!!!!!!!" ;
 
+  //load function classes
+  require_once('functions.php');
+  
+  require_once('database_credential.php');
 
-  //auto load classes
+  require_once('database_functions.php');
+
+ 
+  //auto load object/database classes
   foreach(glob('classes/*_class.php') as $file) {
     require_once($file);
   }
 
-  echo "require classes" ;
 
   function my_autoload($class) {
     if(preg_match('/\A\w+\Z/', $class)) {
@@ -33,6 +38,7 @@
   }
   spl_autoload_register('my_autoload');
 
+  //load musicbuydb into an Database Object
   $database = db_connect();
   DatabaseObject::set_database($database);
 
