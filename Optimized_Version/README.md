@@ -1,6 +1,8 @@
 # PHP-shopping-website
 
-This is a shopping website that includes customer accounts registration and verification, music databases, music shopping cart and other necessary webpage. 
+This is a shopping website that includes customer accounts registration and verification, music databases, music shopping cart and other necessary webpage.
+
+Please note that the optimized version still has its limits because it is based on the class project where the database design is predefined to force participant (student) to learn querying in PHP.
 
 The entire website is coded with PHP.
 
