@@ -1,3 +1,5 @@
+<?php require_once('../private/initialize.php'); ?>
+
 <?php 
 //For user to register a new account and 
 //to check users' input with required condition

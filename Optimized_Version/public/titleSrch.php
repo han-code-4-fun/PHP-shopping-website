@@ -1,3 +1,5 @@
+<?php require_once('../private/initialize.php'); ?>
+
 <html>
 	
 	<head>

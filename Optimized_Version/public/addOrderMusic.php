@@ -1,3 +1,5 @@
+<?php require_once('../private/initialize.php'); ?>
+
 <?php 
 //Display the shopping cart after user add their orders
 	function updateOrderTbl($checkExisting,$input)

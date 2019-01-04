@@ -1,3 +1,5 @@
+<?php require_once('../private/initialize.php'); ?>
+
 <?php
 //this page is the response of user search in the music_searching page
 
