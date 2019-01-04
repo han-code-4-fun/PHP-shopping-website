@@ -1,6 +1,9 @@
 <?php
 
 class DatabaseObject {
+
+    echo "Obj class loaded";
+
     static protected $database;
 
 

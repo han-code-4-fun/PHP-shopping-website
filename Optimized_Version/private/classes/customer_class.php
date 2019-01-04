@@ -3,6 +3,7 @@
 class Customer extends DatabaseObject
 {
 
+    echo "Customer class loaded";
     static protected $database;
     static public $table_name = "customertbl";
 
