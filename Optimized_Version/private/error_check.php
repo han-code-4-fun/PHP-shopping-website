@@ -1,56 +1,85 @@
+
 <?php
 
 function user_register_check($fnameTrim,$lnameTrim, $emailTrim, $passwd, &$errorArray)
 {
-    
+    require_once('error_MSG.php');
 	
 	if($fnameTrim == "")
     {
-        $errorArray[0] = "<td><p style='color:red'>***Your Firstname ?***</p></td>";
+        $errorArray[0] = $no_firstName;
     }else if(strlen($fnameTrim) > 20 )
         {
-            $errorArray[0] = "<td><p style='color:red'>***Your Firstname has TOO many characters?***</p></td>";
+            $errorArray[0] = $name_too_long;
         } else
             {
                 $errorArray[0] = "";
             }
 
-if($lnameTrim == "")
+    if($lnameTrim == "")
     {
-        $errorArray[1] = "<td><p style='color:red'>***Your Lastname ?***</p></td>";
+        $errorArray[1] = $no_lastName;
     }else if(strlen($lnameTrim) > 20 )
         {
-            $errorArray[1] = "<td><p style='color:red'>***Your Lastname has TOO many characters?***</p></td>";
+            $errorArray[1] =$lName_too_long;
         }else
             {
                 $errorArray[1]= "";
             }
-if($emailTrim == "")
+    if($emailTrim == "")
     {
-        $errorArray[2] = "<td><p style='color:red'>***Your email ?***</p></td>";
+        $errorArray[2] = $no_email;
     }else if(strlen($emailTrim) > 20 )
         {
-            $errorArray[2] = "<td><p style='color:red'>***Your email has TOO many characters?***</p></td>";
+            $errorArray[2] = $email_too_long;
         }else
             {
                 $errorArray[2] = "";
             }
-if($passwd == "")
+    if($passwd == "")
     {
-        $errorArray[3]= "<td><p style='color:red'>***Your Password ?***</p></td>";
+        $errorArray[3]= $no_passwd;
     }else if(strlen($passwd) != 7)	
         {
-            $errorArray[3] = "<td><p style='color:red'>***Your Password MUST be 7 characters***</p></td>";
-        }else if(ctype_upper($passwd[0]))
+            $errorArray[3] = $wrong_length;
+        }else if(is_numeric($passwd))
             {
-                $errorArray[3] = "<td><p style='color:red'>***Invalid character***</p></td>";
-            }else if(is_numeric($passwd))
+                $errorArray[3] = $all_numeric;
+            }else if(is_any_uppercase_letter($passwd))
                 {
-                    $errorArray[3] = "<td><p style='color:red'>***Your Password cannot be numeric***</p></td>";
-                }else
+                    $errorArray[3]= $pwd_uppercase;
+                }else if(is_numeric($passwd))
                     {
-                        $errorArray[3]= "";
-                    }
+                        $errorArray[3] = $all_numeric;
+                    }else if(!ctype_lower($passwd[0]))
+                        {
+                            $errorArray[3] = $not_start_lowercase;
+                        }else{
+                                    $errorArray[3]= "";
+                             }
+}
+
+function is_error($errorArray)
+{
+    if( $errorArray[0] == "" && $errorArray[1] == "" && $errorArray[2] == "" && $errorArray[3] == "")
+    {
+        return false;
+    }else{
+        return true;
+    }
+   
+}
+
+
+function is_any_uppercase_letter($input)
+{
+    for ($i=0; $i < strlen($input); $i++) { 
+        if(ctype_upper($input[$i]))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 

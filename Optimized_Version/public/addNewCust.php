@@ -1,4 +1,5 @@
 <?php require_once('../private/initialize.php'); ?>
+<?php require_once('../private/error_check.php'); ?>
 
 <?php 
 //For user to register a new account and 
@@ -8,6 +9,7 @@ function errorMSG($input)
 {
 	echo $input;
 }
+//store pre-allocated error msg into an array
 $errorArray = ["","","","",""];
 
 
@@ -20,88 +22,36 @@ if(isset($_POST['submit']))
 	$emailTrim = trim($email);
 
 	user_register_check($fnameTrim,$lnameTrim, $emailTrim, $passwd, $errorArray);
-	
-	
-	// if($fnameTrim == "")
-	// 	{
-	// 		$errorArray[0] = "<td><p style='color:red'>***Your Firstname ?***</p></td>";
-	// 	}else if(strlen($fnameTrim) > 20 )
-	// 		{
-	// 			$errorArray[0] = "<td><p style='color:red'>***Your Firstname has TOO many characters?***</p></td>";
-	// 		} else
-	// 			{
-	// 				$errorArray[0] = "";
-	// 			}
-	
-	// if($lnameTrim == "")
-	// 	{
-	// 		$errorArray[1] = "<td><p style='color:red'>***Your Lastname ?***</p></td>";
-	// 	}else if(strlen($lnameTrim) > 20 )
-	// 		{
-	// 			$errorArray[1] = "<td><p style='color:red'>***Your Lastname has TOO many characters?***</p></td>";
-	// 		}else
-	// 			{
-	// 				$errorArray[1]= "";
-	// 			}
-	// if($emailTrim == "")
-	// 	{
-	// 		$errorArray[2] = "<td><p style='color:red'>***Your email ?***</p></td>";
-	// 	}else if(strlen($emailTrim) > 20 )
-	// 		{
-	// 			$errorArray[2] = "<td><p style='color:red'>***Your email has TOO many characters?***</p></td>";
-	// 		}else
-	// 			{
-	// 				$errorArray[2] = "";
-	// 			}
-	// if($passwd == "")
-	// 	{
-	// 		$errorArray[3]= "<td><p style='color:red'>***Your Password ?***</p></td>";
-	// 	}else if(strlen($passwd) != 7)	
-	// 		{
-	// 			$errorArray[3] = "<td><p style='color:red'>***Your Password MUST be 7 characters***</p></td>";
-	// 		}else if(ctype_upper($passwd[0]))
-	// 			{
-	// 				$errorArray[3] = "<td><p style='color:red'>***Invalid character***</p></td>";
-	// 			}else if(is_numeric($passwd))
-	// 				{
-	// 					$errorArray[3] = "<td><p style='color:red'>***Your Password cannot be numeric***</p></td>";
-	// 				}else
-	// 					{
-	// 						$errorArray[3]= "";
-	// 					}
+
 				
-	if($errorArray[0] == "" &&
-		$errorArray[1] == "" &&
-		$errorArray[2] == "" &&
-		$errorArray[3] == ""
-		)
+	if(is_error($errorArray) == false)
+	{
+		//getting an Customer object
+		$account = Customer::find_account($lnameTrim);
+
+		if($account == null /* || $account->verify_passwd($passwd) == false */)
 		{
-			//getting an Customer object
-			$account = Customer::find_account($lnameTrim);
-
-			if($account == null /* || $account->verify_passwd($passwd) == false */)
+			$result = Customer::register_new_account($fnameTrim,$lnameTrim,$emailTrim,$passwd);
+			
+			if($result)
 			{
-				$result = Customer::register_new_account($fnameTrim,$lnameTrim,$emailTrim,$passwd);
+				$account = Customer::find_account($lnameTrim);
 				
-				if($result)
-				{
-					$account = Customer::find_account($lnameTrim);
-					
-					$expire= time() + 60*30;
-					setcookie('customerID',$account->cust_id, $expire );
-					setcookie('customerName',$account->cust_fname.' '.$account->cust_lname, $expire );
+				$expire= time() + 60*30;
+				setcookie('customerID',$account->cust_id, $expire );
+				setcookie('customerName',$account->cust_fname.' '.$account->cust_lname, $expire );
 
-					header('location:titleSrch.php');
-				}
-			}else{
-				
-				$errorArray[1] = "<td><p style='color:red'>***last name/account exists, 
-									please enter another lastname/account***</p></td>";
+				header('location:titleSrch.php');
 			}
+		}else{
 			
-			
-	
+			$errorArray[1] = "<td><p style='color:red'>***last name/account exists, 
+								please enter another lastname/account***</p></td>";
 		}
+		
+		
+
+	}
 			
 	
 }

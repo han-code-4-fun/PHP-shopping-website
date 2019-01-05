@@ -1,4 +1,6 @@
 <?php require_once('../private/initialize.php'); ?>
+<?php require_once('../private/error_check.php'); ?>
+
 
 <?php
 //This is the logging page
