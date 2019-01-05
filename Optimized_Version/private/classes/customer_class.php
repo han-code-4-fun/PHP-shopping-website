@@ -12,46 +12,52 @@ class Customer extends DatabaseObject
     public $cust_fname;
     public $cust_lname;
     public $cust_email;
-    public $cust_passw;
+    protected $cust_passw;
 
-    static public function set_hashed_passwd($inputPwd)
-    {
-        $output = password_hash($inputPwd, PASSWORD_BCRYPT);
-        return $output;
-    }
+    protected $inputPwd;
+
+    
 
     public function verify_passwd($inputPwd)
     {
         return password_verify($inputPwd, $this->cust_passw);
     }
   
-    static public function find_by_sql($sql) 
+    static public function find_account($lnameTrim, $passwd) 
     {
+        $sql = "select * from customertbl 
+        where cust_lname='".$lnameTrim."' 
+        and cust_passw='".$passwd."'";
+
         $result = self::$database->query($sql);
+
         if(!$result) {
           return null;
         }
+
+        //should only have one unique account+ password combination
+        if($result->num_rows != 1)
+        {
+            exit("Database error, duplicate accounts.");
+        }else{
+            $object=null;
+
+            $record = $result->fetch_assoc()) 
+
+            $object = static::instantiate($record);
+            
+            $result->free();
     
-        // results into objects
-        $object_array = [];
-        while($record = $result->fetch_assoc()) {
-          $object_array[] = static::instantiate($record);
+            //return an array of objects
+            return $object;
         }
-    
-        $result->free();
-    
-        return $object_array;
       }
 
-    public function if_account_exist($inputPwd)
-    {
-     
-    }
 
-    static public  function register_new_account(
+    static public function register_new_account(
         $fnameTrim,$lnameTrim,$cust_emailTrim,$passwd)
     {
-        $passwdHash = self::set_hashed_passwd($passwd);
+        $passwdHash = set_hashed_passwd($passwd);
 						
         $sql = "insert into customertbl(";
         $sql .="cust_fname,cust_lname,cust_cust_email,cust_passw)";

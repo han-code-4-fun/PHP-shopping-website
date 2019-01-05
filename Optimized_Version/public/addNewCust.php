@@ -18,7 +18,7 @@ if(isset($_POST['submit']))
 	$fnameTrim = trim($fname);
 	$lnameTrim = trim($lname);
 	$emailTrim = trim($email);
-	$passwdTrim = trim($passwd);
+	
 	
 	if($fnameTrim == "")
 		{
@@ -51,16 +51,16 @@ if(isset($_POST['submit']))
 				{
 					$errorArray[2] = "";
 				}
-	if($passwdTrim == "")
+	if($passwd == "")
 		{
 			$errorArray[3]= "<td><p style='color:red'>***Your Password ?***</p></td>";
-		}else if(strlen($passwdTrim) != 7)	
+		}else if(strlen($passwd) != 7)	
 			{
 				$errorArray[3] = "<td><p style='color:red'>***Your Password MUST be 7 characters***</p></td>";
-			}else if(ctype_upper($passwdTrim[0]))
+			}else if(ctype_upper($passwd[0]))
 				{
 					$errorArray[3] = "<td><p style='color:red'>***Invalid character***</p></td>";
-				}else if(is_numeric($passwdTrim))
+				}else if(is_numeric($passwd))
 					{
 						$errorArray[3] = "<td><p style='color:red'>***Your Password cannot be numeric***</p></td>";
 					}else
@@ -74,63 +74,57 @@ if(isset($_POST['submit']))
 		$errorArray[3] == ""
 		)
 		{
-			$myCon = mysqli_connect("localhost","root","","musicbuydb");
+			//$myCon = mysqli_connect("localhost","root","","musicbuydb");
+		
+			//getting an Customer object
+			$account = Customer::find_account($lnameTrim, $passwd);
+
+			if($account != null)
+			{
+				$result = $account->verify_passwd($passwd);
+			}
 			
-			if(mysqli_connect_errno())
+			//$result = mysqli_query($myCon, $sql);
+		
+			if(mysqli_num_rows($result) == 0)
 			{
-				printf("connection failed: %s\n",mysqli_connect_error());
-    			exit();
-			}else
-			{
-				$sql = "select * from customertbl 
-				where cust_lname='".$lnameTrim."' 
-				and cust_passw='".$passwdTrim."'";
-				
-				$result = mysqli_query($myCon, $sql);
-				
+				//register 
+				$errorArray[4] = "";
+				$sql = "insert into customertbl(cust_fname,cust_lname,cust_email,cust_passw) 
+				values('".$fnameTrim."','".$lnameTrim."','".$emailTrim."','".$passwd."')";
+				$result = mysqli_query($myCon,$sql);
 				if($result !== false)
 				{
-					if(mysqli_num_rows($result) == 0)
-					{
-						//register 
-						$errorArray[4] = "";
-						$sql = "insert into customertbl(cust_fname,cust_lname,cust_email,cust_passw) 
-						values('".$fnameTrim."','".$lnameTrim."','".$emailTrim."','".$passwdTrim."')";
-						$result = mysqli_query($myCon,$sql);
-						if($result !== false)
-						{
-							$sql = "select * from customertbl 
-							where cust_lname='".$lnameTrim."' 
-							and cust_passw='".$passwdTrim."'";
-							
-							$result = mysqli_query($myCon, $sql);
-							
-							if($result !== false)
-							{	
-								$record= mysqli_fetch_assoc($result);
-								$expire= time() + 60*30;
-								setcookie('customerID',$record['cust_id'],$expire );
-								setcookie('customerName',$record['cust_fname'].' '.$record['cust_lname'],$expire );
-							
-							
-							header('location:titleSrch.php');
-							}else{
-								print "Unknown Error while extracting data";
-							}
-							
-						}
-						
+					$sql = "select * from customertbl 
+					where cust_lname='".$lnameTrim."' 
+					and cust_passw='".$passwd."'";
+					
+					$result = mysqli_query($myCon, $sql);
+					
+					if($result !== false)
+					{	
+						$record= mysqli_fetch_assoc($result);
+						$expire= time() + 60*30;
+						setcookie('customerID',$record['cust_id'],$expire );
+						setcookie('customerName',$record['cust_fname'].' '.$record['cust_lname'],$expire );
+					
+					
+					header('location:titleSrch.php');
 					}else{
-						$errorArray[4] = "<td>
-						<p style='color:red'>***Password is prohibited, please Re-enter***</p></td>";
-						
+						print "Unknown Error while extracting data";
 					}
 					
-					
-				}else
-				print "problem ".mysqli_error($myCon);
+				}
+				
+			}else{
+				$errorArray[4] = "<td>
+				<p style='color:red'>***Password is prohibited, please Re-enter***</p></td>";
 				
 			}
+			
+	
+				
+			
 			
 			 mysqli_close($myCon); 
 		}
