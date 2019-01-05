@@ -11,3 +11,12 @@
 </body>
 </html>
 
+<?php
+    if(isset($database))
+    {
+        db_disconnect($database);
+    }
+    
+?>
+
+
