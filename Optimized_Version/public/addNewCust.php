@@ -18,55 +18,57 @@ if(isset($_POST['submit']))
 	$fnameTrim = trim($fname);
 	$lnameTrim = trim($lname);
 	$emailTrim = trim($email);
+
+	user_register_check($fnameTrim,$lnameTrim, $emailTrim, $passwd, $errorArray);
 	
 	
-	if($fnameTrim == "")
-		{
-			$errorArray[0] = "<td><p style='color:red'>***Your Firstname ?***</p></td>";
-		}else if(strlen($fnameTrim) > 20 )
-			{
-				$errorArray[0] = "<td><p style='color:red'>***Your Firstname has TOO many characters?***</p></td>";
-			} else
-				{
-					$errorArray[0] = "";
-				}
+	// if($fnameTrim == "")
+	// 	{
+	// 		$errorArray[0] = "<td><p style='color:red'>***Your Firstname ?***</p></td>";
+	// 	}else if(strlen($fnameTrim) > 20 )
+	// 		{
+	// 			$errorArray[0] = "<td><p style='color:red'>***Your Firstname has TOO many characters?***</p></td>";
+	// 		} else
+	// 			{
+	// 				$errorArray[0] = "";
+	// 			}
 	
-	if($lnameTrim == "")
-		{
-			$errorArray[1] = "<td><p style='color:red'>***Your Lastname ?***</p></td>";
-		}else if(strlen($lnameTrim) > 20 )
-			{
-				$errorArray[1] = "<td><p style='color:red'>***Your Lastname has TOO many characters?***</p></td>";
-			}else
-				{
-					$errorArray[1]= "";
-				}
-	if($emailTrim == "")
-		{
-			$errorArray[2] = "<td><p style='color:red'>***Your email ?***</p></td>";
-		}else if(strlen($emailTrim) > 20 )
-			{
-				$errorArray[2] = "<td><p style='color:red'>***Your email has TOO many characters?***</p></td>";
-			}else
-				{
-					$errorArray[2] = "";
-				}
-	if($passwd == "")
-		{
-			$errorArray[3]= "<td><p style='color:red'>***Your Password ?***</p></td>";
-		}else if(strlen($passwd) != 7)	
-			{
-				$errorArray[3] = "<td><p style='color:red'>***Your Password MUST be 7 characters***</p></td>";
-			}else if(ctype_upper($passwd[0]))
-				{
-					$errorArray[3] = "<td><p style='color:red'>***Invalid character***</p></td>";
-				}else if(is_numeric($passwd))
-					{
-						$errorArray[3] = "<td><p style='color:red'>***Your Password cannot be numeric***</p></td>";
-					}else
-						{
-							$errorArray[3]= "";
-						}
+	// if($lnameTrim == "")
+	// 	{
+	// 		$errorArray[1] = "<td><p style='color:red'>***Your Lastname ?***</p></td>";
+	// 	}else if(strlen($lnameTrim) > 20 )
+	// 		{
+	// 			$errorArray[1] = "<td><p style='color:red'>***Your Lastname has TOO many characters?***</p></td>";
+	// 		}else
+	// 			{
+	// 				$errorArray[1]= "";
+	// 			}
+	// if($emailTrim == "")
+	// 	{
+	// 		$errorArray[2] = "<td><p style='color:red'>***Your email ?***</p></td>";
+	// 	}else if(strlen($emailTrim) > 20 )
+	// 		{
+	// 			$errorArray[2] = "<td><p style='color:red'>***Your email has TOO many characters?***</p></td>";
+	// 		}else
+	// 			{
+	// 				$errorArray[2] = "";
+	// 			}
+	// if($passwd == "")
+	// 	{
+	// 		$errorArray[3]= "<td><p style='color:red'>***Your Password ?***</p></td>";
+	// 	}else if(strlen($passwd) != 7)	
+	// 		{
+	// 			$errorArray[3] = "<td><p style='color:red'>***Your Password MUST be 7 characters***</p></td>";
+	// 		}else if(ctype_upper($passwd[0]))
+	// 			{
+	// 				$errorArray[3] = "<td><p style='color:red'>***Invalid character***</p></td>";
+	// 			}else if(is_numeric($passwd))
+	// 				{
+	// 					$errorArray[3] = "<td><p style='color:red'>***Your Password cannot be numeric***</p></td>";
+	// 				}else
+	// 					{
+	// 						$errorArray[3]= "";
+	// 					}
 				
 	if($errorArray[0] == "" &&
 		$errorArray[1] == "" &&
@@ -74,59 +76,31 @@ if(isset($_POST['submit']))
 		$errorArray[3] == ""
 		)
 		{
-			//$myCon = mysqli_connect("localhost","root","","musicbuydb");
-		
 			//getting an Customer object
-			$account = Customer::find_account($lnameTrim, $passwd);
+			$account = Customer::find_account($lnameTrim);
 
-			if($account != null)
+			if($account == null /* || $account->verify_passwd($passwd) == false */)
 			{
-				$result = $account->verify_passwd($passwd);
+				$result = Customer::register_new_account($fnameTrim,$lnameTrim,$emailTrim,$passwd);
+				
+				if($result)
+				{
+					$account = Customer::find_account($lnameTrim);
+					
+					$expire= time() + 60*30;
+					setcookie('customerID',$account->cust_id, $expire );
+					setcookie('customerName',$account->cust_fname.' '.$account->cust_lname, $expire );
+
+					header('location:titleSrch.php');
+				}
+			}else{
+				
+				$errorArray[1] = "<td><p style='color:red'>***last name/account exists, 
+									please enter another lastname/account***</p></td>";
 			}
 			
-			//$result = mysqli_query($myCon, $sql);
-		
-			if(mysqli_num_rows($result) == 0)
-			{
-				//register 
-				$errorArray[4] = "";
-				$sql = "insert into customertbl(cust_fname,cust_lname,cust_email,cust_passw) 
-				values('".$fnameTrim."','".$lnameTrim."','".$emailTrim."','".$passwd."')";
-				$result = mysqli_query($myCon,$sql);
-				if($result !== false)
-				{
-					$sql = "select * from customertbl 
-					where cust_lname='".$lnameTrim."' 
-					and cust_passw='".$passwd."'";
-					
-					$result = mysqli_query($myCon, $sql);
-					
-					if($result !== false)
-					{	
-						$record= mysqli_fetch_assoc($result);
-						$expire= time() + 60*30;
-						setcookie('customerID',$record['cust_id'],$expire );
-						setcookie('customerName',$record['cust_fname'].' '.$record['cust_lname'],$expire );
-					
-					
-					header('location:titleSrch.php');
-					}else{
-						print "Unknown Error while extracting data";
-					}
-					
-				}
-				
-			}else{
-				$errorArray[4] = "<td>
-				<p style='color:red'>***Password is prohibited, please Re-enter***</p></td>";
-				
-			}
 			
 	
-				
-			
-			
-			 mysqli_close($myCon); 
 		}
 			
 	

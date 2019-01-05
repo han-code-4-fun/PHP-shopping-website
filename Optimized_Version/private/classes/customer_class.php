@@ -3,10 +3,8 @@
 class Customer extends DatabaseObject
 {
 
-    echo "Customer class loaded";
     
-    static protected $database;
-    static public $table_name = "customertbl";
+    static protected $table_name = "customertbl";
 
     public $cust_id;
     public $cust_fname;
@@ -14,60 +12,62 @@ class Customer extends DatabaseObject
     public $cust_email;
     protected $cust_passw;
 
-    protected $inputPwd;
 
+    static public function set_hashed_passwd($inputPwd)
+    {
+        $output = password_hash($inputPwd, PASSWORD_BCRYPT);
+        return $output;
+    }
     
 
     public function verify_passwd($inputPwd)
     {
         return password_verify($inputPwd, $this->cust_passw);
     }
+
   
-    static public function find_account($lnameTrim, $passwd) 
-    {
-        $sql = "select * from customertbl 
-        where cust_lname='".$lnameTrim."' 
-        and cust_passw='".$passwd."'";
+    static public function find_account($lnameTrim) 
+    {   //assume that there is only one unique user last name 
+        //(which suppose to be account name)
+        $sql = "select * from customertbl";
+        $sql .= " where cust_lname='".$lnameTrim."'";
 
         $result = self::$database->query($sql);
 
-        if(!$result) {
-          return null;
-        }
+        if($result->num_rows == 0) { 
+            return null;
+        }else if($result->num_rows == 1){
+           
+            $record = $result->fetch_assoc();
 
-        //should only have one unique account+ password combination
-        if($result->num_rows != 1)
-        {
-            exit("Database error, duplicate accounts.");
-        }else{
-            $object=null;
-
-            $record = $result->fetch_assoc()) 
-
-            $object = static::instantiate($record);
+            $object = static::convert_record_to_object($record);
             
+            //free the memory associated with $result
             $result->free();
     
             //return an array of objects
             return $object;
+        }else{
+            exit("Error querying database, check find_account()");
         }
-      }
+    }
 
 
     static public function register_new_account(
         $fnameTrim,$lnameTrim,$cust_emailTrim,$passwd)
     {
-        $passwdHash = set_hashed_passwd($passwd);
+        $passwdHash = self::set_hashed_passwd($passwd);
 						
-        $sql = "insert into customertbl(";
-        $sql .="cust_fname,cust_lname,cust_cust_email,cust_passw)";
+        $sql = "insert into ".self::$table_name." (";
+        $sql .="cust_fname,cust_lname,cust_email,cust_passw)";
         $sql .="values('".$fnameTrim."','".$lnameTrim;
         $sql .="','".$cust_emailTrim."','".$passwdHash."')";
         $result = self::$database->query($sql);
-        
-        return $result;
-        
-        
+        if($result){
+            return $result;
+        }else{
+            exit("data insertion error, check Customer::register_new_account()");
+        } 
     }
 
 

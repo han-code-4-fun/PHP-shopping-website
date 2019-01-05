@@ -24,6 +24,8 @@
 
   require_once('database_functions.php');
 
+  require_once('error_check.php');
+
  
   //auto load object/database classes
   foreach(glob('classes/*_class.php') as $file) {

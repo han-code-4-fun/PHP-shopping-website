@@ -10,9 +10,9 @@ class DatabaseObject {
     self::$database = $database;
     }
 
-    
+
     //assign a record into an object
-    static protected function instantiate($record) {
+    static protected function convert_record_to_object($record) {
         //whichever the class call this function will trigger its constructor
         $object = new static;
      
