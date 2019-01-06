@@ -1,8 +1,9 @@
 # PHP-shopping-website
 
-This is a shopping website that includes customer accounts registration and verification, music databases, music shopping cart and other necessary webpage.
+This is a shopping website that includes customer accounts registration and verification, music databases, music shopping cart and other necessary webpage, now is modified by implementing **active record design pattern**.
 
-Please note that: 
+
+**Please note that:**
 1. the optimized version still has its limits because it is based on the class project where the database design is predefined to force participant (student) to learn querying in PHP.
 
 2. the optimized version assume there is one unique user last name in the database as this column supports to be user accounts.
