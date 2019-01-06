@@ -67,7 +67,7 @@ if(mysqli_connect_errno())
 			
 				$searchBox = trim($searchBox);
 				
-				function getInfoFromDB($sql)
+				function get_Data_From_DB($sql)
 				{
 					$myCon = mysqli_connect("localhost","root","","musicbuydb");
 							
@@ -146,7 +146,7 @@ if(mysqli_connect_errno())
 							{
 								
 									$searchString = "select * from musictbl order by music_title asc";
-									getInfoFromDB($searchString);
+									get_Data_From_DB($searchString);
 								
 							}else{
 								$stringInput = "";
@@ -159,7 +159,7 @@ if(mysqli_connect_errno())
 								}
 								$stringInput = rtrim($stringInput,"union all");
 								$stringInput = $stringInput." order by music_title asc";
-								getInfoFromDB($stringInput);
+								get_Data_From_DB($stringInput);
 							}
 							
 						}
@@ -169,7 +169,7 @@ if(mysqli_connect_errno())
 							{
 								$searchString = "select * from musictbl order 
 													by music_type, music_title";
-								getInfoFromDB($searchString);
+								get_Data_From_DB($searchString);
 								
 							}else{
 								$stringInput = "";
@@ -182,7 +182,7 @@ if(mysqli_connect_errno())
 								}
 								$stringInput = rtrim($stringInput,"union all");
 								$stringInput = $stringInput." order by music_type, music_title asc";
-								getInfoFromDB($stringInput);
+								get_Data_From_DB($stringInput);
 								
 							}
 							
@@ -193,7 +193,7 @@ if(mysqli_connect_errno())
 							{
 								$searchString = "select * from musictbl order by 
 													music_no_times desc, music_title asc";
-								getInfoFromDB($searchString);
+								get_Data_From_DB($searchString);
 								
 							}else{
 								$stringInput = "";
@@ -206,7 +206,7 @@ if(mysqli_connect_errno())
 								}
 								$stringInput = rtrim($stringInput,"union all");
 								$stringInput = $stringInput." order by music_no_times desc, music_title asc";
-								getInfoFromDB($stringInput);
+								get_Data_From_DB($stringInput);
 								
 							}
 							
@@ -224,20 +224,20 @@ if(mysqli_connect_errno())
 								{
 									$searchString = "select * from musictbl where
 								 	music_title like '%".$searchBox."%' order by music_title asc";
-									getInfoFromDB($searchString);
+									get_Data_From_DB($searchString);
 								}
 								if($searchBy == "stWith")
 								{
 									$searchString = "select * from musictbl where
 								 	music_title like '".$searchBox."%' order by music_title asc";
-									getInfoFromDB($searchString);
+									get_Data_From_DB($searchString);
 									
 								}
 								if($searchBy =="exact")
 								{
 									$searchString = "select * from musictbl where
 								 	music_title like '".$searchBox."' order by music_title asc";
-									getInfoFromDB($searchString);
+									get_Data_From_DB($searchString);
 									
 								}
 								
@@ -271,7 +271,7 @@ if(mysqli_connect_errno())
 								}
 								$stringInput = rtrim($stringInput,"union all");
 								$stringInput = $stringInput." order by music_title asc";
-								getInfoFromDB($stringInput);
+								get_Data_From_DB($stringInput);
 							}
 							
 						}
@@ -284,14 +284,14 @@ if(mysqli_connect_errno())
 									$searchString = "select * from musictbl where
 									 	music_title like '%".$searchBox."%' 
 									 	order by music_type asc,music_title asc";
-									getInfoFromDB($searchString);
+									get_Data_From_DB($searchString);
 								}
 								if($searchBy == "stWith")
 								{
 									$searchString = "select * from musictbl where
 									 	music_title like '".$searchBox."%' 
 									 	order by music_type asc,music_title asc";
-									getInfoFromDB($searchString);
+									get_Data_From_DB($searchString);
 									
 								}
 								if($searchBy =="exact")
@@ -299,7 +299,7 @@ if(mysqli_connect_errno())
 									$searchString = "select * from musictbl where
 									 	music_title like '".$searchBox."' 
 									 	order by music_type asc,music_title asc";
-									getInfoFromDB($searchString);
+									get_Data_From_DB($searchString);
 									
 								}
 							}else{
@@ -331,7 +331,7 @@ if(mysqli_connect_errno())
 								}
 								$stringInput = rtrim($stringInput,"union all");
 								$stringInput = $stringInput." order by music_type asc,music_title asc";
-								getInfoFromDB($stringInput);
+								get_Data_From_DB($stringInput);
 							}
 							
 						}
@@ -359,7 +359,7 @@ if(mysqli_connect_errno())
 								 	music_no_times desc, music_title asc";
 									
 								}
-								getInfoFromDB($searchString);
+								get_Data_From_DB($searchString);
 								
 							}else{
 								$stringInput = "";
@@ -390,7 +390,7 @@ if(mysqli_connect_errno())
 								}
 								$stringInput = rtrim($stringInput,"union all");
 								$stringInput = $stringInput." order by music_no_times desc, music_title asc";
-								getInfoFromDB($stringInput);
+								get_Data_From_DB($stringInput);
 								
 							}
 							

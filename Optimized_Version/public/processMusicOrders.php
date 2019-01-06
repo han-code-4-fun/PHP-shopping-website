@@ -2,12 +2,7 @@
 
 <html>
 	<head>
-		<style>
-			body{
-				text-align: center
-			}
-			
-		</style>
+		<link rel="stylesheet" type="text/css" href="css/layout.css">
 		<title>Your Cart</title>
 	</head>
 <body>

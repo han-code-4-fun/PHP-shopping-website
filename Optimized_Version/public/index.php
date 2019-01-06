@@ -19,7 +19,7 @@
 		if(is_error($errorMSG) == false)
 		{
 		
-			$account = Customer::login_check($lnameTrim, $passwd, $errorMSG);
+			$account = Customer::login_check($lnameTrim, $passwd, $errorMSG[4]);
 
 			set_Cookie_on_login($account);
 		}
@@ -33,29 +33,10 @@
 		<meta name="author" content="Han Zhou" />
 		<meta name="description" content="buy music" />
 		<meta name="keywords" content="buy music " />
+		<link rel="stylesheet" type="text/css" href="css/index.css">
 		<title>Music Buy</title>
 	</head>
-<style>
-	body{
-		text-align:center;
-		
-	}
-	table{
-		position: relative;
-		
 
-	}
-	#orig{
-		color:blue;
-		text-align: center;
-		
-	}
-	#des{
-		
-		text-align: right
-	}
-	
-</style>
 <script>
 	function reset(){
 		document.getElementById("lname").value = "";

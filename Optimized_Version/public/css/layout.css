@@ -1,0 +1,21 @@
+body{
+	text-align: center;
+}
+table{
+	width:80%;
+}
+#right{
+	text-align: right;
+}
+
+#table_text_center{
+	text-align: center;
+}
+
+#need_padding{
+	 padding: 5px;
+}
+
+#Arial{
+	font-family: arial;
+}

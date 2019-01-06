@@ -7,7 +7,7 @@ class Customer extends DatabaseObject
 
     
     static protected $table_name = "customertbl";
-
+    
     public $cust_id;
     public $cust_fname;
     public $cust_lname;
@@ -26,6 +26,7 @@ class Customer extends DatabaseObject
         return password_verify($inputPwd, $this->cust_passw);
     }
 
+    
     static public function find_account($lnameTrim) 
     {   //assume that there is only one unique user last name 
         //(which suppose to be account name)
@@ -59,14 +60,15 @@ class Customer extends DatabaseObject
         $resultObj = static::find_account($lnameTrim);
         if($resultObj == null)
         {
-            $errorMSG[4]= $GLOBALS['incorrect_passwd'];
+            $errorMSG= $GLOBALS['incorrect_passwd'];
         }else{
             if($resultObj->verify_passwd($passwd) == true)
             {
+                $errorMSG = "";
                 return $resultObj;
             }else
             {
-                $errorMSG[4]= $GLOBALS['incorrect_passwd'];
+                $errorMSG= $GLOBALS['incorrect_passwd'];
             }
         }
     }

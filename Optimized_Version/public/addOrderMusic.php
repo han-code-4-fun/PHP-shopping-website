@@ -73,17 +73,17 @@
 						$record = mysqli_fetch_assoc($result);
 						switch($record["m_icon"])
 						{
-							case "popImg.jpg":
+							case "image/popImg.jpg":
 							print '<tr><td style="color:white;background-color:red">';
 							break;
 							
-							case "countryImg.jpg":
+							case "image/countryImg.jpg":
 							print '<tr><td style="color:yellow;background-color:green">';
 							break;
 							
-							case "jazzImg.jpg":
+							case "image/jazzImg.jpg":
 							print '<tr><td style="color:white;background-color:blue">';
-							
+							break;
 							
 						}
 						
@@ -132,15 +132,7 @@
 
 <html>
 	<head>
-		<style>
-			body{
-				text-align: center
-			}
-			table{
-				width:90%;
-				text-align: center
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="css/layout.css">
 		<title>Your Cart</title>
 	</head>
 <body>
@@ -173,7 +165,7 @@ extract($_REQUEST);
 	{
 	
 		
-		print '	<table border="1" align="center" >
+		print '	<table border="1" align="center" id="table_text_center">
 					<tr style="font-weight:bold" >
 						<td>Title</td>
 						<td>Id</td>
@@ -203,13 +195,13 @@ extract($_REQUEST);
 		
 		print "<p>You have NOT selected anything! But below are you current selections in your CART from before</p>";
 		
-		print '	<table border="1" align="center" >
+		print '	<table border="1" align="center" id="table_text_center">
 					<tr style="font-weight:bold" >
 						<td>Title</td>
 						<td>Id</td>
 						<td>Type</td>
 						<td>Date Added<br />(mm-dd-yy)</td>
-						<td >Price</td>
+						<td>Price</td>
 						
 					</tr>';
 			

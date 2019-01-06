@@ -15,9 +15,10 @@
       $expire= time() + 60*30;
       setcookie('customerID',$object->cust_id, $expire );
       setcookie('customerName',$object->cust_fname.' '.$object->cust_lname, $expire );
-      header('location:titleSrch.php');
+      header('location:search_music.php');
     }
   }
 
+  
 
 ?>
