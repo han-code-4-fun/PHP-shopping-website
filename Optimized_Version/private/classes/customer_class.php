@@ -1,5 +1,7 @@
 <?php
 
+require_once(PRIVATE_PATH.'/error_MSG.php');
+
 class Customer extends DatabaseObject
 {
 
@@ -19,17 +21,15 @@ class Customer extends DatabaseObject
         return $output;
     }
     
-
     public function verify_passwd($inputPwd)
     {
         return password_verify($inputPwd, $this->cust_passw);
     }
 
-  
     static public function find_account($lnameTrim) 
     {   //assume that there is only one unique user last name 
         //(which suppose to be account name)
-        $sql = "select * from customertbl";
+        $sql = "select * from ".self::$table_name ;
         $sql .= " where cust_lname='".$lnameTrim."'";
 
         $result = self::$database->query($sql);
@@ -48,10 +48,30 @@ class Customer extends DatabaseObject
             //return an array of objects
             return $object;
         }else{
-            exit("Error querying database, check find_account()");
+            exit("Error in database");
         }
     }
 
+  
+
+    static public function login_check($lnameTrim, $passwd, &$errorMSG)
+    {
+        $resultObj = static::find_account($lnameTrim);
+        if($resultObj == null)
+        {
+            $errorMSG[4]= $GLOBALS['incorrect_passwd'];
+        }else{
+            if($resultObj->verify_passwd($passwd) == true)
+            {
+                return $resultObj;
+            }else
+            {
+                $errorMSG[4]= $GLOBALS['incorrect_passwd'];
+            }
+        }
+    }
+
+  
 
     static public function register_new_account(
         $fnameTrim,$lnameTrim,$cust_emailTrim,$passwd)
@@ -66,7 +86,7 @@ class Customer extends DatabaseObject
         if($result){
             return $result;
         }else{
-            exit("data insertion error, check Customer::register_new_account()");
+            exit("Data insertion error");
         } 
     }
 

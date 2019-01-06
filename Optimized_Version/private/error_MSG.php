@@ -29,4 +29,9 @@ $all_numeric = createMSG("Your Password cannot be all numeric");
 
 $pwd_uppercase =createMSG("Password show not contain upper case letter");
 
+$account_exist = createMSG("last name/account exists, 
+please enter another lastname/account");
+
+$incorrect_passwd = createMSG("Incorrect account/password combination, please try again");
+
 ?>

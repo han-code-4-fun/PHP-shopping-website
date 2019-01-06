@@ -2,63 +2,48 @@
 <?php require_once('../private/error_check.php'); ?>
 
 <?php 
-//For user to register a new account and 
-//to check users' input with required condition
 
-function errorMSG($input)
-{
-	echo $input;
-}
-//store pre-allocated error msg into an array
-$errorArray = ["","","","",""];
-
-
-
-if(isset($_POST['submit']))
-{
-	extract($_REQUEST);
-	$fnameTrim = trim($fname);
-	$lnameTrim = trim($lname);
-	$emailTrim = trim($email);
-
-	user_register_check($fnameTrim,$lnameTrim, $emailTrim, $passwd, $errorArray);
-
-				
-	if(is_error($errorArray) == false)
+	function errorMSG($input)
 	{
-		//getting an Customer object
-		$account = Customer::find_account($lnameTrim);
-
-		if($account == null /* || $account->verify_passwd($passwd) == false */)
-		{
-			$result = Customer::register_new_account($fnameTrim,$lnameTrim,$emailTrim,$passwd);
-			
-			if($result)
-			{
-				$account = Customer::find_account($lnameTrim);
-				
-				$expire= time() + 60*30;
-				setcookie('customerID',$account->cust_id, $expire );
-				setcookie('customerName',$account->cust_fname.' '.$account->cust_lname, $expire );
-
-				header('location:titleSrch.php');
-			}
-		}else{
-			
-			$errorArray[1] = "<td><p style='color:red'>***last name/account exists, 
-								please enter another lastname/account***</p></td>";
-		}
-		
-		
-
+		echo $input;
 	}
-			
-	
-}
+	//store pre-allocated error msg into an array, msg position is requested by project designer
+	$errorArray = ["","","","",""];
 
 
+	if(isset($_POST['submit']))
+	{
+		extract($_REQUEST);
+		$fnameTrim = trim($fname);
+		$lnameTrim = trim($lname);
+		$emailTrim = trim($email);
+
+		user_register_check($fnameTrim,$lnameTrim, $emailTrim, $passwd, $errorArray);
+				
+		if(is_error($errorArray) == false)
+		{
+			//getting an Customer object
+			$account = Customer::find_account($lnameTrim);
+
+			if($account == null /* || $account->verify_passwd($passwd) == false */)
+			{
+				$result = Customer::register_new_account($fnameTrim,$lnameTrim,$emailTrim,$passwd);
+				
+				if($result)
+				{
+					$account = Customer::find_account($lnameTrim);
+					
+					set_Cookie_on_login($account);
+				}
+			}else{
+				
+				$errorArray[1] = $GLOBALS['account_exist'];
+			}
+		}
+	}
 
 ?>
+
 <html>
 	<head>
 		<title>New Member Register</title>
