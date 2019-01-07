@@ -1,7 +1,10 @@
 <?php require_once('../private/initialize.php'); ?>
 
 <?php
-	//this webpage is the response of user search in the music_searching page
+//this webpage is the response of user search in the music_searching page
+
+	check_Cookie_after_login();
+	
 	extract($_REQUEST);
 	
 	//if user choose to go to cart, then jump to addOrderMusic.php

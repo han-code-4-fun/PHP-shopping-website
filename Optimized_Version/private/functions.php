@@ -19,6 +19,24 @@
     }
   }
 
+  function renew_Cookie()
+  {
+    $expire= time() + 60*30;
+    setcookie('customerID',$_COOKIE['customerID'], $expire );
+    setcookie('customerName',$_COOKIE['customerName'], $expire );
+  }
+
+  function check_Cookie_after_login()
+  {
+    if(isset($_COOKIE['customerID']))
+    {
+      renew_Cookie();
+    }else{
+      header('location:index.php');
+    }
+
+  }
+
   
 
 ?>

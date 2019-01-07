@@ -154,7 +154,7 @@ extract($_REQUEST);
 	{
 		setcookie('customerID',"",time()-3600 );
 		setcookie('customerName','',time()-3600);
-		header('location:musicBuyLogin.php');
+		header('location:index.php');
 	}
 
 

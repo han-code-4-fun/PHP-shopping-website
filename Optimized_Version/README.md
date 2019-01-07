@@ -25,7 +25,7 @@ The entire website is coded with PHP.
   
 # How to use source code file<br /><br />
 :point_right:Professional guide <br /><br />
-Download and unzip, put folder under **WAMP/www** folder, create database **musicbuydb** and import tables from folder **dboutput**. Go to **localhost** from WAMP, find and open file **musicBuyLogin.php** to begin. Don't forget to read the **Assignment4.doc** for project requirement.<br /><br /><br />
+Download and unzip, put folder under **WAMP/www** folder, create database **musicbuydb** and import tables from folder **dboutput**. Go to **localhost** from WAMP, find and open file **index.php** to begin. Don't forget to read the **Assignment4.doc** for project requirement.<br /><br /><br />
 :point_right:Beginner guide<br />
 #### Step 1 Download source file
 Download source file(**PHP music shopping website.zip**) and upzip it (you would get **PHP music shopping website** folder).<br /><br />
@@ -58,7 +58,7 @@ Open WAMP, a small icon will appear at the notification area of the Task bar (no
 ### Step 6 Test website
 **left-click** WAMP icon and select **Localhost**
 Click **PHP music shopping website** from the pop-up browser
-Click **musicBuyLogin.php** to begin 
+Click **index.php** to begin 
 
 
 

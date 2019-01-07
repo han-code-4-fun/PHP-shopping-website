@@ -1,4 +1,7 @@
-<?php require_once('../private/initialize.php'); ?>
+<?php 
+	require_once('../private/initialize.php');
+	check_Cookie_after_login();
+?>
 
 <html>
 	<head>

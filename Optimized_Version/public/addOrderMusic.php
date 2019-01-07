@@ -1,4 +1,7 @@
-<?php require_once('../private/initialize.php'); ?>
+<?php 
+	require_once('../private/initialize.php'); 
+	check_Cookie_after_login();
+?>
 
 <?php 
 //Display the shopping cart after user add their orders
@@ -142,22 +145,30 @@
 
 <?php
 
-extract($_REQUEST);
+	extract($_REQUEST);
 
+	//if user log out
 	if(isset($_GET['logOut']))
 	{
 		setcookie('customerID',"",time()-3600 );
 		setcookie('customerName','',time()-3600);
-		header('location:musicBuyLogin.php');
+		header('location:index.php');
 	}
 
+	//array of order objects
+	$orders = Order::find_by_id();
+
+	$musics = Music::find_all($sql);
+
+	$musicData = MusicData::find_all();
+
+	
 
 	$sql="select music_title,ord_music_id,m_icon, 
 					 date_format(ord_date_added,'%m-%d-%Y') as orderDate,
 					 m_price 
-					 from ordertbl,musictbl,music_data where
-					 ordertbl.ord_music_id = musictbl.music_id and
-					 music_data.m_type=musictbl.music_type and
+					 from ordertbl,musictbl,music_data 
+					 where ordertbl.ord_music_id = musictbl.music_id and music_data.m_type=musictbl.music_type and
 					 ordertbl.ord_cust_id=".(int)$_COOKIE['customerID'];
 					 
 

@@ -27,7 +27,6 @@ class DatabaseObject {
 
       //returning array of class object
       static public function find_by_sql($sql) {
-        echo "$sql";
         $result = self::$database->query($sql);
         if(!$result) {
           exit("Database query failed.");
@@ -47,6 +46,8 @@ class DatabaseObject {
         $sql = "select * from ".static::$tableName;
         return static::find_by_sql($sql);
       }
+
+  
 }
 
 
