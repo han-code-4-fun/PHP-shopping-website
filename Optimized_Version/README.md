@@ -25,7 +25,7 @@ The entire website is coded with PHP.
   
 # How to use source code file<br /><br />
 :point_right:Professional guide <br /><br />
-Download and unzip, put folder under **WAMP/www** folder, create database **musicbuydb** and import tables from folder **dboutput**. Go to **localhost** from WAMP, find and open file **index.php** to begin. Don't forget to read the **Assignment4.doc** for project requirement.<br /><br /><br />
+Download and unzip, put folder under **WAMP/www** folder, create database **musicbuydb** and import tables from folder **database**. Go to **localhost** from WAMP, find and open file **index.php** to begin. <br /><br /><br />
 :point_right:Beginner guide<br />
 #### Step 1 Download source file
 Download source file(**PHP music shopping website.zip**) and upzip it (you would get **PHP music shopping website** folder).<br /><br />
@@ -44,7 +44,7 @@ Open WAMP, a small icon will appear at the notification area of the Task bar (no
 2.enter default username **root** and leave password empty then click go button
 3.At left panel Click **New** to create a new database then enter **musicbuydb** exactly into the database name inbox then click create
 4.At left panel Click the newly created **musicbuydb** then Click **Import** tab on top
-5.Click Browse button to browse file in your system, navigate to **dboutput** under **PHP music shopping website** folder, select one of the tables file (end with .sql) and click **open**, scroll down to the bottom of the page click **Go** button
+5.Click Browse button to browse file in your system, navigate to **database** under **PHP music shopping website** folder, select the database file (end with .sql) and click **open**, scroll down to the bottom of the page click **Go** button
 6.Repeat step 4,5 to import all the files
 7.To check if data entered correctly: 
  - **left-click** WAMP icon go to **MySQL** -> **MySQL console**
