@@ -7,6 +7,8 @@
 //original version file name musicBuyLogin.php
 
 
+//todo: implement method for SQL injection
+
 	$errorMSG = ["","","","",""];
 	
 	if(isset($_POST['login']))

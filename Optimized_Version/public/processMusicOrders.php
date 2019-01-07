@@ -1,4 +1,7 @@
-<?php require_once('../private/initialize.php'); ?>
+<?php 
+	require_once('../private/initialize.php'); 
+	//todo: implment OOP
+?>
 
 <html>
 	<head>

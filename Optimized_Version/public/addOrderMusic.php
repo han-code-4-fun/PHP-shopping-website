@@ -1,6 +1,7 @@
 <?php 
 	require_once('../private/initialize.php'); 
 	check_Cookie_after_login();
+	//todo: implment Order class
 ?>
 
 <?php 
@@ -156,11 +157,11 @@
 	}
 
 	//array of order objects
-	$orders = Order::find_by_id();
+	/* $orders = Order::find_by_id();
 
 	$musics = Music::find_all($sql);
 
-	$musicData = MusicData::find_all();
+	$musicData = MusicData::find_all(); */
 
 	
 
